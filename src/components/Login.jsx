@@ -1,11 +1,16 @@
-import { React, useState } from "react";
-import { Link } from "react-router-dom";
+import { React, useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import db from "../db/firebase"; // Importa tu configuración de Firebase
+import { UserContext } from "../context/userContext";
 function Login() {
+  const { setUser } = useContext(UserContext);
+  const [error, setError] = useState(null);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
   const handleChangeLogin = (e) => {
     const { id, value } = e.target;
     setLoginData((prevData) => ({
@@ -14,9 +19,28 @@ function Login() {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("Email:", loginData.email);
-    console.log("Password:", loginData.password);
+  const handleSubmit = async (e) => {
+    // console.log("Email:", loginData.email);
+    //console.log("Password:", loginData.password);
+
+    e.preventDefault();
+    const auth = getAuth(); // Obtiene la instancia de autenticación
+    try {
+      // Intenta iniciar sesión con email y contraseña
+      await signInWithEmailAndPassword(
+        auth,
+        loginData.email,
+        loginData.password
+      );
+      console.log("Inicio de sesión exitoso");
+      //seteamos en el contexto el usuario logeado como true
+      setUser(true);
+      // Redirige al usuario después del login
+      navigate("/");
+    } catch (err) {
+      console.error("Error al iniciar sesión:", err.message);
+      setError("Correo o contraseña incorrectos");
+    }
   };
 
   return (
