@@ -1,27 +1,11 @@
-import { useState, useEffect } from "react";
+import React, { useContext } from "react";
+import { ProductsContext } from "../context/productsContext";
 import { Link } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
-import db from "../db/firebase";
 function Home() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const productsCollection = collection(db, "products");
-        const productsSnapShot = await getDocs(productsCollection);
-        const productsList = productsSnapShot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setProducts(productsList);
-        console.log("productos de firebase: ", products);
-      } catch (error) {
-        console.error("Error fetchind products:", error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+  const { products, loading } = useContext(ProductsContext);
+  if (loading) {
+    return <p>Cargando productos...</p>;
+  }
   return (
     <>
       <section className="text-gray-600 body-font">

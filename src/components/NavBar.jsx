@@ -1,15 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../context/userContext";
 import { Link } from "react-router-dom";
 function NavBar() {
-  const { user } = useContext(UserContext);
-  let userLoggedroute = "";
+  const { user, setUser } = useContext(UserContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  if (user) {
-    userLoggedroute = "/Porfile";
-  } else {
-    userLoggedroute = "/Login";
-  }
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  const handleLogOut = () => {
+    setUser("");
+  };
+
   return (
     <>
       <header className="text-gray-600 body-font">
@@ -49,29 +56,104 @@ function NavBar() {
             </Link>
           </nav>
 
-          <Link to={userLoggedroute}>
-            <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-              {user ? (
-                <>Porfile </>
-              ) : (
-                <>
-                  {" "}
-                  Login
+          <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+            {user ? (
+              <div className="flex items-center space-x-4">
+                <Link
+                  to="/cart"
+                  className="flex items-center space-x-1 bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+                >
                   <svg
+                    xmlns="http://www.w3.org/2000/svg"
                     fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-4 h-4 ml-1"
                     viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-5 h-5"
                   >
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                  </svg>{" "}
-                </>
-              )}
-            </button>
-          </Link>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.6 8M17 13l1.6 8M9 21h6"
+                    />
+                  </svg>
+                  <span>Cart</span>
+                </Link>
+                <div className="relative ml-auto">
+                  <span
+                    onClick={toggleMenu}
+                    className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+                  >
+                    <svg
+                      viewBox="0 0 48 48"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="#000000"
+                      className="w-5 h-5"
+                    >
+                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                      <g
+                        id="SVGRepo_tracerCarrier"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <title>user-profile-circle-solid</title>
+                        <g id="Layer_2" data-name="Layer 2">
+                          <g id="invisible_box" data-name="invisible box">
+                            <rect width="48" height="48" fill="none"></rect>
+                          </g>
+                          <g id="icons_Q2" data-name="icons Q2">
+                            <path d="M24,2A22,22,0,1,0,46,24,21.9,21.9,0,0,0,24,2Zm0,8a8,8,0,1,1-8,8A8,8,0,0,1,24,10Zm0,32a18.2,18.2,0,0,1-12.2-4.8A26.4,26.4,0,0,1,24,34a26.4,26.4,0,0,1,12.2,3.2A18.2,18.2,0,0,1,24,42Z"></path>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>
+                    <span> Perfil</span>
+                  </span>
+                  {isMenuOpen && (
+                    <div
+                      className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-50"
+                      onClick={closeMenu}
+                    >
+                      <Link
+                        to="/settings"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200 text-sm"
+                      >
+                        Ajustes
+                      </Link>
+                      <span
+                        onClick={handleLogOut}
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full  text-sm"
+                      >
+                        Cerrar Sesión
+                      </span>
+                      <Link
+                        to="/help"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200 text-sm"
+                      >
+                        Ayuda
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <Link to="/Login">
+                Login
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="w-4 h-4 ml-1"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </Link>
+            )}
+          </button>
         </div>
       </header>
     </>

@@ -1,7 +1,6 @@
 import { React, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import db from "../db/firebase"; // Importa tu configuración de Firebase
 import { UserContext } from "../context/userContext";
 function Login() {
   const { setUser } = useContext(UserContext);

@@ -16,8 +16,6 @@ const firerbaseConfig = {
 const app = initializeApp(firerbaseConfig);
 
 //Inicializamos Firestore
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 //console.log("Conexion Establecida con Firebase: ", db);
-
-export default db;
