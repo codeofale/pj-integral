@@ -51,10 +51,10 @@ function NavBar() {
           </a>
           <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
             <Link to="/">
-              <button className="mr-5 hover:text-gray-900">Product List</button>
+              <button className="mr-5 hover:text-gray-900">Productos</button>
             </Link>
             <Link to="/About">
-              <button className="mr-5 hover:text-gray-900">About</button>
+              <button className="mr-5 hover:text-gray-900">Nostros</button>
             </Link>
           </nav>
 
@@ -141,7 +141,7 @@ function NavBar() {
               </div>
             ) : (
               <Link to="/Login">
-                Login
+                Ingresar
                 <svg
                   fill="none"
                   stroke="currentColor"

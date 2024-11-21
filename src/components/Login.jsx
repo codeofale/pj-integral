@@ -64,7 +64,7 @@ function Login() {
           </div>
           <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
             <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
-              Sign Up
+              Ingresa tus Datos
             </h2>
             <div className="relative mb-4">
               <label
@@ -77,7 +77,7 @@ function Login() {
                 type="email"
                 id="email"
                 name="email"
-                className="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 onChange={handleChangeLogin}
               />
             </div>
@@ -86,21 +86,21 @@ function Login() {
                 htmlFor="email"
                 className="leading-7 text-sm text-gray-600"
               >
-                Password
+                Contraseña
               </label>
               <input
                 type="text"
                 id="password"
                 name="password"
-                className="w-full bg-white rounded border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 onChange={handleChangeLogin}
               />
             </div>
             <button
               onClick={handleSubmit}
-              className="text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg"
+              className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg"
             >
-              Continue
+              Continuar
             </button>
             <p className="text-xs text-gray-500 mt-3">
               Todavia no tienes una cuenta?.{" "}
