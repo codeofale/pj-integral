@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { CartContext } from "../context/cartContext";
 function ProductDetail() {
   /*
-  Con eso traemos el  producto 
+  Con esto traemos el  producto 
   */
   const location = useLocation();
   const product = location.state;
@@ -22,12 +22,6 @@ function ProductDetail() {
    */
   const { setCart } = useContext(CartContext);
   const handleAddProductToCart = () => {
-    /*  console.log("se añade al carro: ", [
-      product.id,
-      product.img,
-      product.stock,
-      product.price,
-    ]);*/
     setCart((prevCart) => {
       const existingProduct = prevCart.find((item) => item.id === product.id);
 
@@ -67,7 +61,6 @@ function ProductDetail() {
     }
     console.log("target: ", e.target.value);
   };
-  /*Hay que controlar si el usuario esta logueado */
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-4 mx-auto">
@@ -183,6 +176,9 @@ function ProductDetail() {
               </span>
             </div>
             <p className="leading-relaxed">{product.description}</p>
+            <p className="leading-relaxed">
+              Unidades disponibles: {product.stock}
+            </p>
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5"></div>
             <div className="flex">
               <span className="title-font font-medium text-2xl text-gray-900">

@@ -20,9 +20,9 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const auth = getAuth(); // Obtiene la instancia de autenticación
+    const auth = getAuth(); // Obtiene la instancia de autenticacion
     try {
-      // Intenta iniciar sesión con email y contraseña
+      // Intenta iniciar sesion con email y contraseña
       await signInWithEmailAndPassword(
         auth,
         loginData.email,

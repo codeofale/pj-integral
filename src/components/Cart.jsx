@@ -6,8 +6,6 @@ function Cart() {
   const { cart, setCart } = useContext(CartContext);
   const [showMessage, setShowMessage] = useState(false);
 
-  console.log("Carrito actual:", cart);
-
   //Actualizar la cantidad de un producto
   const updateqty = (id, amount) => {
     setCart((prevCart) =>
