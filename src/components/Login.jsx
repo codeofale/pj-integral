@@ -4,7 +4,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { UserContext } from "../context/userContext";
 function Login() {
   const { setUser } = useContext(UserContext);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -19,9 +19,6 @@ function Login() {
   };
 
   const handleSubmit = async (e) => {
-    // console.log("Email:", loginData.email);
-    //console.log("Password:", loginData.password);
-
     e.preventDefault();
     const auth = getAuth(); // Obtiene la instancia de autenticación
     try {
@@ -37,8 +34,10 @@ function Login() {
       // Redirige al usuario después del login
       navigate("/");
     } catch (err) {
-      console.error("Error al iniciar sesión:", err.message);
-      setError("Correo o contraseña incorrectos");
+      console.log("Error al iniciar sesión:", err.code);
+      setError(
+        "Hubo un error al intentar iniciar sesión. Por favor, intente nuevamente."
+      );
     }
   };
 
@@ -66,6 +65,11 @@ function Login() {
             <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
               Ingresa tus Datos
             </h2>
+            {error && (
+              <div className="bg-red-100 text-red-500 p-2 mb-4 rounded">
+                {error}
+              </div>
+            )}
             <div className="relative mb-4">
               <label
                 htmlFor="full-name"
@@ -98,7 +102,7 @@ function Login() {
             </div>
             <button
               onClick={handleSubmit}
-              className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-lg"
+              className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
             >
               Continuar
             </button>

@@ -12,6 +12,8 @@ function ProductDetail() {
     return <div>Producto no encontrado.</div>;
   }
   const [invalidQty, setInvalidQty] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+
   /*
       en esta funcion al agregar en el carrito se activa toda la logica del mismo
       Verificar si el producto ya está en el carrito
@@ -20,12 +22,12 @@ function ProductDetail() {
    */
   const { setCart } = useContext(CartContext);
   const handleAddProductToCart = () => {
-    console.log("se añade al carro: ", [
+    /*  console.log("se añade al carro: ", [
       product.id,
       product.img,
       product.stock,
       product.price,
-    ]);
+    ]);*/
     setCart((prevCart) => {
       const existingProduct = prevCart.find((item) => item.id === product.id);
 
@@ -47,6 +49,7 @@ function ProductDetail() {
         },
       ];
     });
+    setShowMessage(true);
   };
   /*
   Esta funcion controla que la cantidad no sea mayor al stock o no sea un valor invalido 
@@ -67,7 +70,7 @@ function ProductDetail() {
   /*Hay que controlar si el usuario esta logueado */
   return (
     <section className="text-gray-600 body-font overflow-hidden">
-      <div className="container px-5 py-24 mx-auto">
+      <div className="container px-5 py-4 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
           <img
             alt="ecommerce"
@@ -219,6 +222,11 @@ function ProductDetail() {
           </div>
         </div>
       </div>
+      {showMessage && (
+        <div className="bg-green-500 px-6 py-2 rounded-lg shadow-lg text-white w-80 max-w-[12rem] items-center justify-center">
+          se añadio al carrito
+        </div>
+      )}
     </section>
   );
 }

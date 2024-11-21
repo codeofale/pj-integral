@@ -9,6 +9,7 @@ import Cart from "./components/Cart";
 import { UserProvider } from "./context/userContext";
 import { ProductsProvider } from "./context/productsContext";
 import { CartProvider } from "./context/cartContext";
+import About from "./components/About";
 function App() {
   return (
     <>
@@ -23,6 +24,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/Register" element={<Register />} />
                 <Route path="/Cart" element={<Cart />} />
+                <Route path="/About" element={<About />} />
               </Routes>
               <Footer />
             </Router>

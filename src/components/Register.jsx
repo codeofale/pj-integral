@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
@@ -7,22 +10,91 @@ function Register() {
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const validateEmail = (email) => {
+    // Expresion regular para validar correo electronico
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password) => {
+    // Verifica que la contraseña tenga al menos 6 caracteres
+    if (password.length < 6) {
+      return "La contraseña debe tener al menos 6 caracteres.";
+    }
+
+    // Verifica que no tenga letras repetidas
+    if (/([a-zA-Z])\1{2,}/.test(password)) {
+      return "La contraseña no puede tener letras repetidas (por ejemplo, 'aaa').";
+    }
+
+    // Verifica que no tenga numeros consecutivos
+    if (
+      /123456|234567|345678|456789|567890|678901|789012|890123|901234/.test(
+        password
+      )
+    ) {
+      return "La contraseña no puede tener números consecutivos (por ejemplo, '123456').";
+    }
+    // Verifica que no tenga el mismo numero repetido 6 veces (Ej: "111111")
+    if (/(\d)\1{5}/.test(password)) {
+      return "La contraseña no puede tener el mismo número repetido 6 veces (por ejemplo, '111111').";
+    }
+
+    return ""; // La contraseña es valida
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validación simple
+
+    // Validaciones
     if (formData.password !== formData.confirmPassword) {
-      alert("Las contraseñas no coinciden");
+      setError("Las contraseñas no coinciden.");
       return;
+    }
+
+    if (!validateEmail(formData.email)) {
+      setError("Por favor, ingrese un correo electrónico válido.");
+      return;
+    }
+
+    const passwordError = validatePassword(formData.password);
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
+    setError(""); // Si todas las validaciones pasan, se limpia el error
+    // Accede a la instancia de autenticación de Firebase
+    const auth = getAuth();
+
+    try {
+      // Crea un nuevo usuario en Firebase
+      await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
+      // Si la creación es exitosa, puedes hacer algo adicional, como redirigir al usuario
+      console.log("Usuario registrado exitosamente");
+
+      // Si es necesario, puedes redirigir al usuario o guardar información adicional
+      navigate("/");
+    } catch (error) {
+      console.error("Error al registrar usuario:", error.message);
+      setError("Error al registrar el usuario. Intenta nuevamente.");
     }
     // Procesar el formulario (enviar a backend, etc.)
     console.log("Datos enviados:", formData);
   };
+
   return (
     <section className="text-gray-600 body-font relative">
       <div className="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap">
@@ -38,11 +110,11 @@ function Register() {
           <div className="bg-white relative flex flex-wrap py-6 rounded shadow-md">
             <div className="lg:w-1/2 px-6">
               <h2 className="title-font font-semibold text-gray-900 tracking-widest text-xs">
-                direccion
+                dirección
               </h2>
               <p className="mt-1">
-                Puedes encontrar nuestras oficinas en esta direccion, o
-                comunicarte via email / telefono
+                Puedes encontrar nuestras oficinas en esta dirección, o
+                comunicarte vía email / teléfono.
               </p>
             </div>
             <div className="lg:w-1/2 px-6 mt-4 lg:mt-0">
@@ -66,6 +138,7 @@ function Register() {
           <p className="leading-relaxed mb-5 text-gray-600">
             Completa los campos para registrarte.
           </p>
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
           <form onSubmit={handleSubmit}>
             <div className="relative mb-4">
               <label htmlFor="name" className="leading-7 text-sm text-gray-600">
@@ -161,4 +234,5 @@ function Register() {
     </section>
   );
 }
+
 export default Register;
