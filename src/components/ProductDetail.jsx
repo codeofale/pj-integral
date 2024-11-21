@@ -1,15 +1,70 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
-
+import { CartContext } from "../context/cartContext";
 function ProductDetail() {
+  /*
+  Con eso traemos el  producto 
+  */
   const location = useLocation();
-  // Accede al producto desde el estado
   const product = location.state;
-
+  let quantity = 1;
   if (!product) {
     return <div>Producto no encontrado.</div>;
   }
+  const [invalidQty, setInvalidQty] = useState(false);
+  /*
+      en esta funcion al agregar en el carrito se activa toda la logica del mismo
+      Verificar si el producto ya está en el carrito
+      Si ya existe, actualizar la cantidad
+      Si no existe, agregarlo como un nuevo producto
+   */
+  const { setCart } = useContext(CartContext);
+  const handleAddProductToCart = () => {
+    console.log("se añade al carro: ", [
+      product.id,
+      product.img,
+      product.stock,
+      product.price,
+    ]);
+    setCart((prevCart) => {
+      const existingProduct = prevCart.find((item) => item.id === product.id);
 
+      if (existingProduct) {
+        return prevCart.map((item) =>
+          item.id === product.id ? { ...item, qty: item.qty + quantity } : item
+        );
+      }
+
+      return [
+        ...prevCart,
+        {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          qty: quantity,
+          stock: product.stock,
+          img: product.img,
+        },
+      ];
+    });
+  };
+  /*
+  Esta funcion controla que la cantidad no sea mayor al stock o no sea un valor invalido 
+  */
+  const handleQuantity = (e) => {
+    setInvalidQty(false);
+    quantity = Number(e.target.value);
+
+    if (quantity <= 0 || quantity == "") {
+      e.target.value = 1;
+    }
+    if (e.target.value > product.stock) {
+      setInvalidQty(true);
+      return alert("no hay stock suficiente");
+    }
+    console.log("target: ", e.target.value);
+  };
+  /*Hay que controlar si el usuario esta logueado */
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
@@ -130,7 +185,22 @@ function ProductDetail() {
               <span className="title-font font-medium text-2xl text-gray-900">
                 ${product.price}
               </span>
-              <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+              <div className="flex border-t border-b border-gray-200 ml-2 py-0">
+                <input
+                  type="number"
+                  min="1"
+                  className="ml-auto w-16 text-center border border-gray-300 rounded"
+                  defaultValue="1"
+                  onChange={handleQuantity}
+                />
+              </div>
+              <button
+                disabled={invalidQty}
+                onClick={handleAddProductToCart}
+                className={`flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded ${
+                  invalidQty ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
                 Agregar al Carrito
               </button>
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">

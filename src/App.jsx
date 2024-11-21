@@ -1,27 +1,32 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 import Login from "./components/Login";
-import CreateAccount from "./components/createAccount";
-import ProductDetail from "./components/productDetail";
+import ProductDetail from "./components/ProductDetail";
 import Register from "./components/Register";
-import { UserProvider } from "./context/userContext"; // Ruta al archivo de contexto
+import Cart from "./components/Cart";
+import { UserProvider } from "./context/userContext";
 import { ProductsProvider } from "./context/productsContext";
+import { CartProvider } from "./context/cartContext";
 function App() {
   return (
     <>
       <UserProvider>
         <ProductsProvider>
-          <Router>
-            <NavBar />
-            <Routes>
-              <Route path="/Login" element={<Login />} />
-              <Route path="/CreateAccount" element={<CreateAccount />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/" element={<Home />} />
-              <Route path="/Register" element={<Register />} />
-            </Routes>
-          </Router>
+          <CartProvider>
+            <Router>
+              <NavBar />
+              <Routes>
+                <Route path="/Login" element={<Login />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/Register" element={<Register />} />
+                <Route path="/Cart" element={<Cart />} />
+              </Routes>
+              <Footer />
+            </Router>
+          </CartProvider>
         </ProductsProvider>
       </UserProvider>
     </>
