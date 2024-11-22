@@ -1,6 +1,6 @@
 ---
 
-# 🛒 E-Commerce React  
+# 🛒 Ecommerce React  
 Este es un proyecto desarrollado como parte del **Curso de React** de la **UTN**.  
 Consiste en un e-commerce tradicional que incluye:  
 - **Listado de productos** obtenidos desde **Firebase**.  
