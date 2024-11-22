@@ -1,4 +1,3 @@
-project_readme: |
   ---
   
   # 🛒 Ecommerce React  
