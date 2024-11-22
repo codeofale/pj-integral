@@ -53,8 +53,6 @@
   ```plaintext
   src/
   ├── components/   # Componentes reutilizables.
-  ├── contexts/     # Context API para la gestión de estado.
+  ├── contexts/     # Context  para la gestión de estado.
   ├── db/           # Configuración de Firebase.
-  ├── pages/        # Vistas principales del proyecto.
-  ├── styles/       # Archivos CSS.
   └── App.jsx       # Punto de entrada principal.
